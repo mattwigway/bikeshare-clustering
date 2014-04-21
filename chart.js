@@ -2,8 +2,8 @@ var width = 400;
 var height = 275;
 
  // TODO: hardcoding is bad
-var ydiff = d3.scale.linear().domain([0, 7]).range([height,0]);
-var yp    = d3.scale.linear().domain([0, 0.3]).range([height,0]);
+var ydiff = d3.scale.log().domain([1/7, 7]).range([height,0]);
+var yp    = d3.scale.linear().domain([0, 0.3]).range([ydiff(1),0]);
 
 var dragging = false;
 var dragx = null;
@@ -53,16 +53,20 @@ d3.csv('data.csv', function (data) {
             .attr('height', function (d) {
                 if (d == 'casual' || d == 'weekend')
                     // p stands for probability, as in the binomial distribution
-                    return height - yp(cluster['p.' + d]);
+                    return ydiff(1) - yp(cluster['p.' + d]);
                 else
-                    return height - ydiff(cluster['mean.' + d]);
+                    return Math.abs(ydiff(1) - ydiff(cluster['mean.' + d]));
             })
             .attr('transform', function (d, i) {
                 var x = i * width / 9;
                 if (d == 'casual' || d == 'weekend')
                     var y = yp(cluster['p.' + d]);
-                else
-                    var y = ydiff(cluster['mean.' + d]);
+                else {
+                    if (cluster['mean.' + d] <= 1) 
+                        var y = ydiff(1);
+                    else
+                        var y = ydiff(1) - d3.select(this).attr('height');
+                }
                 return 'translate(' + x + ' ' + y + ')';
             })
             .attr('fill', function (d) { return color[d] });
@@ -96,7 +100,7 @@ d3.csv('data.csv', function (data) {
 
         // indifference line: accessibility at origin == accessibility at destination
         chart.append('line')
-            .attr('x1', 0).attr('x2', 7 * width / 9 - (width / 9 - width / 10))
+            .attr('x1', 0).attr('x2', width - (width / 9 - width / 10))
             .attr('y1', ydiff(1)).attr('y2', ydiff(1))
             .attr('stroke', '#000')
             .attr('stroke-width', .75);
@@ -105,7 +109,7 @@ d3.csv('data.csv', function (data) {
         var t = chart.selectAll('text.chLabel')
             .data(vars)
             .enter().append('text')
-            .attr('x', 15).attr('y', 15);
+            .attr('x', 45).attr('y', 15);
             
         t.append('tspan')
             .text(function (d) {
@@ -113,7 +117,7 @@ d3.csv('data.csv', function (data) {
             });
 
         t.append('tspan')
-            .attr('dy', 15).attr('x', 15)
+            .attr('dy', 15).attr('x', 45)
             .text('n: ' + cluster['n.jobs10']);
 
         // now, all the fancy labels
@@ -196,7 +200,19 @@ d3.csv('data.csv', function (data) {
 
     var diffaxis = d3.svg.axis()
         .scale(ydiff)
-        .orient('left');
+        .orient('left')
+        .tickFormat(function (t) {
+            if (t > 1) {
+                return t;
+            }
+            else {
+                var tstar = 1/t;
+                if (Math.abs(Math.round(tstar) - tstar) >= 0.00001)
+                    return '';
+                else
+                    return tstar;
+            }
+        });
 
     d3.selectAll('.axis')
         .append('svg')
