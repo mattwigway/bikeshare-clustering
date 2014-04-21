@@ -2,8 +2,8 @@ var width = 400;
 var height = 275;
 
  // TODO: hardcoding is bad
-var ydiff = d3.scale.linear().domain([0, 14]).range([height,0]);
-var yp    = d3.scale.linear().domain([0, 0.5]).range([height,0]);
+var ydiff = d3.scale.linear().domain([0, 7]).range([height,0]);
+var yp    = d3.scale.linear().domain([0, 0.3]).range([height,0]);
 
 var dragging = false;
 var dragx = null;
