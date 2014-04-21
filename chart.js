@@ -67,7 +67,10 @@ d3.csv('data.csv', function (data) {
             })
             .attr('fill', function (d) { return color[d] });
 
-        // add confidence bands
+        // add confidence bars
+	// commented out due to difficulty of interpretation for the general public; everything
+	// is highly significant anyhow
+	/*
         chart.selectAll('line.band')
             .data(vars)
             .enter().append('line')
@@ -89,6 +92,7 @@ d3.csv('data.csv', function (data) {
                     return ydiff(Number(cluster['mean.' + d]) + Number(cluster['conf.' + d]));
             })
             .attr('stroke', '#000');       
+	*/
 
         // indifference line: accessibility at origin == accessibility at destination
         chart.append('line')
