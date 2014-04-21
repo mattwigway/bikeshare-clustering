@@ -21,7 +21,7 @@
 
     <style type="text/css">
       .cluster-chart { padding: 15px; display: inline; }
-      #viz { width: 90%; overflow-x: scroll; white-space: nowrap; overflow-y: hidden; float: left}
+      #viz {max-width: 85%; overflow-x: scroll; white-space: nowrap; overflow-y: hidden; float: left}
       .drawing { 300px; white-space: nowrap }
       .axis { float: left }
     </style>
@@ -30,8 +30,10 @@
   <body>
     <div class="container">
       <h1>Bay Area Bikeshare Trip Clustering</h1>
+    </div>
+    <div class="container-fluid">
 
-      <div class="container drawing">
+      <div class="container-fluid drawing">
         <div class="axis"></div>
         <div id="viz"></div>
         <div class="axis"></div>
