@@ -144,12 +144,12 @@ d3.csv('data.csv', function (data) {
             .attr('stroke', '#000');
 
         chart.append('text')
-            .attr('x', 20)
+            .attr('x', 40)
             .attr('y', height + 38)
             .text('Jobs');
 
         chart.append('text')
-            .attr('x', 3 * width / 9 + 20)
+            .attr('x', 3 * width / 9 + 30)
             .attr('y', height + 38)
             .text('Population');
 
