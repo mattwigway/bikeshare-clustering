@@ -196,14 +196,24 @@ d3.csv('data.csv', function (data) {
 
     d3.selectAll('.axis')
         .append('svg')
-        .attr('width', '40px')
+        .attr('width', '60px')
         .attr('height', (height + 10) + 'px')
         .append('g')
-        .data([diffaxis, paxis])
+        .data([[diffaxis, 'Ratio of accessibilities at ends of trip'], [paxis, 'Percentage of trips']])
         .each(function (axis) {
-            axis(d3.select(this));
-        });
+            axis[0](d3.select(this));
 
-    d3.select('.axis svg g')
-        .attr('transform', 'translate(40 0)');
+	    var t = d3.select(this)
+		.append('text')
+		.text(axis[1]);
+
+	    var left = axis[0].orient() == 'left';
+	    if (left) {
+		d3.select(this).attr('transform', 'translate(40 0)');
+		t.attr('transform', 'rotate(-90) translate (-' + height + ' -25)');
+	    }
+	    else {
+		t.attr('transform', 'rotate(90) translate (60 -45)')
+	    }
+        });
 });
