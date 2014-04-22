@@ -2,6 +2,7 @@ from csv import DictReader, DictWriter
 from sys import argv
 from datetime import datetime
 from numpy import mean
+from math import log
 
 # parse arguments
 if len(argv) != 5:
@@ -71,23 +72,18 @@ with open(argv[1]) as tripsRaw:
             population60 = float(orig['population60'])/float(dest['population60'])
             bike30 = float(orig['bike30'])/float(dest['bike30'])
 
-            # If more than half of the ratios are > 1, invert them all
-            if mean([int(i > 1) for i in [jobs10, jobs30, jobs60, population10, population30, population60, bike30]]):
-                outt['jobs10'] = 1/jobs10
-                outt['jobs30'] = 1/jobs30
-                outt['jobs60'] = 1/jobs60
-                outt['population10'] = 1/population10
-                outt['population30'] = 1/population30
-                outt['population60'] = 1/population60
-                outt['bike30'] = 1/bike30
-            else:
-                outt['jobs10'] = jobs10
-                outt['jobs30'] = jobs30
-                outt['jobs60'] = jobs60
-                outt['population10'] = population10
-                outt['population30'] = population30
-                outt['population60'] = population60
-                outt['bike30'] = bike30
+            # Previously there had been an inversion step here, that inverted the ratios of accessibilities if more
+            # than half of them were less than one, in order to treat round trips in the same way. While it was a
+            # nice idea, it made the results harder to interpret without adding much in the way of descriptive potency.
+            # If there was one accessibility ratio that was consistently near 1, it could flip some trips one way and
+            # some trips the other.
+            outt['jobs10'] = log(jobs10)
+            outt['jobs30'] = log(jobs30)
+            outt['jobs60'] = log(jobs60)
+            outt['population10'] = log(population10)
+            outt['population30'] = log(population30)
+            outt['population60'] = log(population60)
+            outt['bike30'] = log(bike30)
 
             out.writerows([outt])
                 
