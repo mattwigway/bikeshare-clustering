@@ -20,19 +20,81 @@
     <![endif]-->
 
     <style type="text/css">
-      #vizupper { padding-bottom: 50px }
+      .viz { padding-bottom: 50px }
+      .text { text-align: justify; max-width: 600px }
     </style>
 
   </head>
   <body>
     <div class="container">
-      <h1>Bay Area Bikeshare Trip Clustering</h1>
+      <h1>Bay Area Bike Share Trip Clustering</h1>
     </div>
     <div class="container-fluid">
       <div class="container-fluid drawing">   
         <div id="vizupper" class="viz"></div>
         <div id="vizlower" class="viz"></div>
       </div>
+    </div>
+
+    <div class="container text">
+      <p>These graphs represent a clustering
+      of <a href="http://bayareabikeshare.com/">Bay Area Bike
+      Share's</a> trip data by accessibility ratios. Accessibility is
+      a measure of how many things are within a certain distance of a
+      place, and an accessibility ratio is the ratio of the
+      accessibilities at the start and end of the trip. So an
+      accessibility ratio of 7:1 for jobs within 10 minutes would mean
+      that there are seven times more jobs within ten minutes walking
+      distance of the start station than the end station.</p>
+
+      <p>Clustering assigns the trips to groups with similar
+      accessibility ratios. The hypothesis is that there are several
+      kinds of trips served by bikeshare; for example, commuter trips
+      would have large differences in accessibility to jobs at the
+      start and end stations (because they are try to access
+      employment zones). For each cluster, I also computed the
+      percentage of trips that were made by casual users (users
+      without an annual membership) and the percentage that were made
+      on the weekend, in order to evaluate the meanings of the
+      cluster. These other variables were not used to perform the
+      clustering, so any differences observed suggest differences in
+      trip-making patterns between casual users and subscribers and
+      between weekend and weekday trips.</p>
+
+      <p>I created four clusters of trips based on accessibility
+      differences, as shown in the graphs above. Bars above the line
+      indicate that the start station is more accessible in that
+      category, and bars below the line indicate that the end station
+      is more accessible. You will note that clusters 1 and 2, and 3
+      and 4, are nearly mirror images of each other; this makes sense
+      as many people make round trips. For example, a trip from home
+      to work would have a very low score for the jobs accessibility
+      ratio (because jobs are much more accessible at the end), and
+      the corresponding work-to-home trip would have the opposite.</p>
+
+      <p>Clusters 1 and 2 appear to represent commuters; there are
+      large differences in the job accessibility between start and end
+      stations, while other variables are less important. In clusters
+      3 and 4, jobs do not dominate and indeed the differences in
+      accessibilty between the start and end of trips is not as
+      large. Cluster 4 in particular has high levels of weekend and
+      casual trip making, although cluster 3 also has higher levels
+      than the commute clusters. This suggests that weekend and casual
+      trips have different patterns than commute trips: they are less
+      likely to be focused on entering or leaving an employment
+      center.</p>
+
+      <p>This information can be used in bikeshare system
+      planning. Knowing that different types of users make different
+      types of trips can help predict, for example, trip patterns or
+      rebalancing needs. Further research could include adding more
+      types of accessibility (accessibility to transit stations would
+      be useful, as many use bikeshare to access transit; this project
+      used accessibility measures that had been computed previously
+      and did not include accessibility to transit stations). It would
+      also be interesting to cluster the <i>users</i> of a bikeshare
+      system by their demographic characteristics to see if different
+      groups of people have different trip-making patterns.</p>
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
