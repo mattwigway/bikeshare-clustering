@@ -31,10 +31,13 @@ d3.csv('data.csv', function (data) {
     // debugging
     theData = data;
 
-    var chartArea = d3.select('#viz');
+    var upperChartArea = d3.select('#vizupper');
+    var lowerChartArea = d3.select('#vizlower');
 
     // draw the same plot for each of the clusters
     data.forEach(function (cluster, clusterIndex) {
+        var chartArea = clusterIndex % 2 == 0 ? upperChartArea : lowerChartArea;
+        
         var chart = chartArea.append('div')
             .attr('class', 'cluster-chart')
             .append('svg')
