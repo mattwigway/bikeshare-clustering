@@ -2,8 +2,8 @@ var width = 400;
 var height = 275;
 
  // TODO: hardcoding is bad
-var ydiff = d3.scale.log().domain([1/7, 7]).range([height,0]);
-var yp    = d3.scale.linear().domain([0, 0.3]).range([ydiff(1),0]);
+var ydiff = d3.scale.linear().domain([Math.log(1/7), Math.log(7)]).range([height,0]);
+var yp    = d3.scale.linear().domain([0, 0.3]).range([ydiff(0),0]);
 
 var dragging = false;
 var dragx = null;
@@ -53,19 +53,19 @@ d3.csv('data.csv', function (data) {
             .attr('height', function (d) {
                 if (d == 'casual' || d == 'weekend')
                     // p stands for probability, as in the binomial distribution
-                    return ydiff(1) - yp(cluster['p.' + d]);
+                    return ydiff(0) - yp(cluster['p.' + d]);
                 else
-                    return Math.abs(ydiff(1) - ydiff(cluster['mean.' + d]));
+                    return Math.abs(ydiff(0) - ydiff(cluster['mean.' + d]));
             })
             .attr('transform', function (d, i) {
                 var x = i * width / 9;
                 if (d == 'casual' || d == 'weekend')
                     var y = yp(cluster['p.' + d]);
                 else {
-                    if (cluster['mean.' + d] <= 1) 
-                        var y = ydiff(1);
+                    if (cluster['mean.' + d] <= 0) 
+                        var y = ydiff(0);
                     else
-                        var y = ydiff(1) - d3.select(this).attr('height');
+                        var y = ydiff(0) - d3.select(this).attr('height');
                 }
                 return 'translate(' + x + ' ' + y + ')';
             })
@@ -101,7 +101,7 @@ d3.csv('data.csv', function (data) {
         // indifference line: accessibility at origin == accessibility at destination
         chart.append('line')
             .attr('x1', 0).attr('x2', width - (width / 9 - width / 10))
-            .attr('y1', ydiff(1)).attr('y2', ydiff(1))
+            .attr('y1', ydiff(0)).attr('y2', ydiff(0))
             .attr('stroke', '#000')
             .attr('stroke-width', .75);
 
@@ -167,10 +167,6 @@ d3.csv('data.csv', function (data) {
             .attr('dy', 15)
             .attr('x', 6 * width / 9)
             .text('Stations')
-
-        
-                
-                
     });
 
     // set up dragging
@@ -202,21 +198,27 @@ d3.csv('data.csv', function (data) {
         .scale(ydiff)
         .orient('left')
         .tickFormat(function (t) {
-            if (t > 1) {
-                return t;
+            var ext = Math.exp(t);
+            if (ext > 1)
+                return '' + Math.round(ext) + ':1';
+            else
+                return '1:' + Math.round(1/ext);
+        })
+        // this is an ugly hack to do a list comprehension in javascript
+        // The idea is that we want the ticks at the log values of meaningful numbers, because
+        // we're not displaying log values but actual ratio values, so we don't have to display
+        // logs to the user.
+        .tickValues((function () {
+            var vals = [1/6, 1/5, 1/4, 1/3, 1/2, 2, 3, 4, 5, 6];
+            for (var i = 0; i < vals.length; i++) {
+                vals[i] = Math.log(vals[i])
             }
-            else {
-                var tstar = 1/t;
-                if (Math.abs(Math.round(tstar) - tstar) >= 0.00001)
-                    return '';
-                else
-                    return tstar;
-            }
-        });
+            return vals;
+        })());
 
     d3.selectAll('.axis')
         .append('svg')
-        .attr('width', '60px')
+        .attr('width', '70px')
         .attr('height', (height + 10) + 'px')
         .append('g')
         .data([[diffaxis, 'Ratio of accessibilities at ends of trip'], [paxis, 'Percentage of trips']])
@@ -229,8 +231,8 @@ d3.csv('data.csv', function (data) {
 
 	    var left = axis[0].orient() == 'left';
 	    if (left) {
-		d3.select(this).attr('transform', 'translate(40 0)');
-		t.attr('transform', 'rotate(-90) translate (-' + height + ' -25)');
+		d3.select(this).attr('transform', 'translate(50 0)');
+		t.attr('transform', 'rotate(-90) translate (-' + height + ' -35)');
 	    }
 	    else {
 		t.attr('transform', 'rotate(90) translate (60 -45)')
