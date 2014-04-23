@@ -62,7 +62,7 @@ d3.csv('data.csv', function (data) {
 	.attr('width', width * 2 + 120 + 15)
 	.attr('height', height + 50)
 	.selectAll('g')  
-	.data([[diffaxis, 'Ratio of accessibilities at ends of trip'], [paxis, 'Percentage of trips']])
+	.data([[diffaxis, 'Ratio of start to end accessibility'], [paxis, 'Percentage of trips']])
 	.enter().append('g')
 	.each(function (axis) {
             axis[0](d3.select(this));
@@ -74,7 +74,7 @@ d3.csv('data.csv', function (data) {
 	    var left = axis[0].orient() == 'left';
 	    if (left) {
 		d3.select(this).attr('transform', 'translate(50 0)');
-		t.attr('transform', 'rotate(-90) translate (-' + height + ' -35)');
+		t.attr('transform', 'rotate(-90) translate (-' + (height - 50) + ' -35)');
 	    }
 	    else {
 		d3.select(this).attr('transform', 'translate(' + (width * 2 + 60 + 15) + ' 0)');
