@@ -1,7 +1,7 @@
 library(plyr)
 
+setwd('~/bikeshare-data-challenge')
 tripdata <- read.csv('tripdata.csv')
-summary(tripdata)
 
 # maximum number of clusters
 maxk <- 10
@@ -15,9 +15,11 @@ for (k in 2:maxk) {
   tot.withinss[k] <- km$tot.withinss
 }
 
-# 6 looks pretty good
+plot(2:maxk, tot.withinss[2:maxk], ylab='Total within sum of squares', xlab='Number of clusters', main='Cluster selection', type='b')
+
+# 3 looks pretty good
 km <- kmeans(tripdata[,c('jobs10', 'jobs30', 'jobs60', 'population10', 'population30', 'population60', 'bike30')],
-             6,nstart=20)
+             3,nstart=20)
 
 tripdata$cluster <- km$cluster
 
