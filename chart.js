@@ -24,6 +24,11 @@ var color = {
     weekend: d3.rgb('#9d4343')
 };
 
+function round (x, places) {
+    var m = Math.pow(10, places);
+    return Math.round(x * m) / m;
+}
+
 d3.csv('data.csv', function (data) {
     // debugging
     theData = data;
@@ -120,7 +125,19 @@ d3.csv('data.csv', function (data) {
                 }
                 return 'translate(' + x + ' ' + y + ')';
             })
-            .attr('fill', function (d) { return color[d] });
+            .attr('fill', function (d) { return color[d] })
+            .attr('title', function (d) { 
+                if (d == 'casual' || d == 'weekend')
+                    return '' + Math.round(cluster['p.' + d] * 100) + '%';
+                else {
+                    var ext = Math.exp(cluster['mean.' + d]);
+                    if (ext > 1)
+                        return '' + round(ext, 2) + ':1';
+                    else
+                        return '1:' + round(1/ext, 2);
+                }
+            });
+                    
 
         // indifference line: accessibility at origin == accessibility at destination
         chart.append('line')
