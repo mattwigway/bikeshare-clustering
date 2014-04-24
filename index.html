@@ -20,8 +20,11 @@
     <![endif]-->
 
     <style type="text/css">
-      .viz { padding-bottom: 50px }
+      .viz { padding-bottom: 50px; width: 935px; margin-left: auto; margin-right: auto }
       .text { text-align: justify; max-width: 600px }
+      h1 { text-align: center; padding-top: 30px; padding-bottom: 60px
+      }
+      .boilerplate { font-size: 9pt; color: #555; margin: 50px }
     </style>
 
   </head>
@@ -37,67 +40,84 @@
     </div>
 
     <div class="container text">
-      <p>These graphs represent a clustering
-      of <a href="http://bayareabikeshare.com/">Bay Area Bike
-      Share's</a> trip data by accessibility ratios. Accessibility is
-      a measure of how many things are within a certain distance of a
-      place, and an accessibility ratio is the ratio of the
-      accessibilities at the start and end of the trip. So an
-      accessibility ratio of 7:1 for jobs within 10 minutes would mean
-      that there are seven times more jobs within ten minutes walking
-      distance of the start station than the end station.</p>
+      <p>This represents a clustering of bikeshare trips based on what
+      the start and end stations are near, and the relationships
+      between them. For instance, a high score on Jobs (10 min)
+      indicates that there are more jobs within 10 minutes of the
+      start station than the end station. The clustering attempts to
+      find patterns in the trips, by grouping similar trips
+      together. The hypothesis is that there are several different
+      types of trips that bikeshare serves. The pink bars represent
+      what percentage of trips in that cluster were made on the
+      weekends and by casual users (users with a one- or three-day
+      pass, as opposed to an annual membership), respectively. The
+      jobs and population within 10 minutes variables represent the
+      ratios of the number of jobs and the number of residents, respectively,
+      within 10 minutes walking distance of the start and end
+      stations. The 30 and 60 minute variables include transit as
+      well. The bike stations within 30 minutes variable uses
+      bicycling as the mode (as that is how other bike stations would
+      be reached) and 30 minutes as the time cutoff because trips
+      longer than 30 minutes incur overage charges.</p>
 
-      <p>Clustering assigns the trips to groups with similar
-      accessibility ratios. The hypothesis is that there are several
-      kinds of trips served by bikeshare; for example, commuter trips
-      would have large differences in accessibility to jobs at the
-      start and end stations (because they are try to access
-      employment zones). For each cluster, I also computed the
-      percentage of trips that were made by casual users (users
-      without an annual membership) and the percentage that were made
-      on the weekend, in order to evaluate the meanings of the
-      cluster. These other variables were not used to perform the
-      clustering, so any differences observed suggest differences in
-      trip-making patterns between casual users and subscribers and
-      between weekend and weekday trips.</p>
+      <p>Clusters 1 and 2 are clearly related, as are clusters 3 and
+      4. Cluster 2 is a mirror-image of cluster 1. This is easy to
+      explain; the two clusters represent round trips. Since the
+      scores represent ratios, return trips will have reversed
+      accessibility ratios. The number of trips in clusters 1 and 2
+      are also very similar, reinforcing the hypothesis that the
+      clusters represent round trips. This argument is not as strong
+      for clusters 3 and 4, but they do appear to be related in a
+      similar way.</p>
 
-      <p>I created four clusters of trips based on accessibility
-      differences, as shown in the graphs above. Bars above the line
-      indicate that the start station is more accessible in that
-      category, and bars below the line indicate that the end station
-      is more accessible. You will note that clusters 1 and 2, and 3
-      and 4, are nearly mirror images of each other; this makes sense
-      as many people make round trips. For example, a trip from home
-      to work would have a very low score for the jobs accessibility
-      ratio (because jobs are much more accessible at the end), and
-      the corresponding work-to-home trip would have the opposite.</p>
+      <p>The trips in clusters 1 and 2 appear to be commute trips;
+      they have much higher accessibility to jobs at one end than the
+      other. The trips in cluster 3 and 4 represent other types of
+      trips. Higher percentages of the trips in these clusters
+      (especially cluster 4) are made on weekends and by casual
+      users. These trips appear to be driven more by housing, so
+      perhaps they represent shopping trips or homebound trips from
+      transit stations.</p>
 
-      <p>Clusters 1 and 2 appear to represent commuters; there are
-      large differences in the job accessibility between start and end
-      stations, while other variables are less important. In clusters
-      3 and 4, jobs do not dominate and indeed the differences in
-      accessibilty between the start and end of trips is not as
-      large. Cluster 4 in particular has high levels of weekend and
-      casual trip making, although cluster 3 also has higher levels
-      than the commute clusters. This suggests that weekend and casual
-      trips have different patterns than commute trips: they are less
-      likely to be focused on entering or leaving an employment
-      center.</p>
+      <p>This analysis suggests that there are distinct types of trips
+      and that they are taken by different types of users. This
+      information could be useful in planning and operation of
+      bikeshare systems. For example, knowing that subscribers make
+      more trips from low to high job accessibility areas could
+      suggest what the effects will be on the balance of casual users
+      and subscribers of a particular station configuration. This
+      information could also be used when building models to predict
+      how the system will be used. This visualization is descriptive;
+      it describes how the system is used, but does not predict
+      anything. However, the trends shown could be integrated in a
+      predictive model using other tools. Another area of further
+      research would be to incorporate additional accessibility
+      measures; people may be using bikeshare to access transit or
+      shopping, so it would be valuable to calculate how many transit
+      stops and retail opportunities are near stations, and use those
+      measures for clustering as well.</p>
 
-      <p>This information can be used in bikeshare system
-      planning. Knowing that different types of users make different
-      types of trips can help predict, for example, trip patterns or
-      rebalancing needs. Further research could include adding more
-      types of accessibility (accessibility to transit stations would
-      be useful, as many use bikeshare to access transit; this project
-      used accessibility measures that had been computed previously
-      and did not include accessibility to transit stations). It would
-      also be interesting to cluster the <i>users</i> of a bikeshare
-      system by their demographic characteristics to see if different
-      groups of people have different trip-making patterns.</p>
+      <p class="boilerplate">CC BY-NC-SA
+      4.0 <a href="http://www.indicatrix.org">Matthew Wigginton
+      Conway</a>, 2014. Created with data
+      from <a href="http://www.bayareabikeshare.com">Bay Area Bike
+      Share</a>, <a href="http://www.sfmta.com">SFMTA</a>, <a href="http://actransit.com">AC
+      Transit</a>, <a href="http://www.bart.gov">BART</a>, <a href="http://www.caltrain.com">CalTrain</a>,
+      <a href="http://www.samtrans.com">SamTrans</a>, <a href="http://www.census.gov">the
+      US Census Bureau</a>,
+      and <a href="http://www.openstreetmap.org">OpenStreetMap</a>
+      using <a href="http://www.r-project.org">R</a>, <a href="http://www.opentripplanner.org">OpenTripPlanner</a>
+      and <a href="http://www.d3js.org">D3</a>. Source code is available
+      <a href="https://www.github.com/mattwigway/bikeshare-clustering">on
+      GitHub</a>.
+      
+      </p>
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+    <!-- fork me on github -->
+    <a href="https://github.com/mattwigway/bikeshare-clustering"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"></a>
   </body>
 </html>
