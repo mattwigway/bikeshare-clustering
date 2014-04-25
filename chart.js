@@ -15,6 +15,10 @@
 */
 
 $(document).ready(function () {
+    // user agent check: IE is bad
+    if (navigator.userAgent.contains('MSIE') && !'19'.contains(navigator.userAgent[navigator.userAgent.indexOf('MSIE') + 5]))
+        $('#iewarning').slideDown();
+
     var width = 400;
     var height = 275;
 
