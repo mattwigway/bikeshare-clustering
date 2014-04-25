@@ -16,7 +16,9 @@
 
 $(document).ready(function () {
     // user agent check: IE is bad
-    if (navigator.userAgent.contains('MSIE') && !'19'.contains(navigator.userAgent[navigator.userAgent.indexOf('MSIE') + 5]))
+    // yes, we could use .contains, but old versions of IE don't support that
+    // how meta.
+    if (navigator.userAgent.indexOf('MSIE') >= 0 && '19'.indexOf(navigator.userAgent[navigator.userAgent.indexOf('MSIE') + 5]) == -1)
         $('#iewarning').slideDown();
 
     var width = 400;
